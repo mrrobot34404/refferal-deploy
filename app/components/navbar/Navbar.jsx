@@ -1,10 +1,11 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 //import { signOut } from 'next-auth/react';
 //import { useSession } from 'next-auth/react';
 export default function Navbar() {
    const session = true; 
+   
    //const user = session.data?.user
    
   // console.log(session);
@@ -55,7 +56,7 @@ export default function Navbar() {
             </div>
             <ul className="hidden lg:flex ml-14 lg:w-auto lg:space-x-12">
               <li className="group relative">
-                <Link className="inline-block text-sm text-gray-900 hover:text-orange-900 font-medium" href="/blog/fashion">Categories</Link>
+                <Link className="inline-block text-sm text-gray-900 hover:text-orange-900 font-medium" href="/about">About</Link>
                 <div className="hidden group-hover:block absolute top-full left-0 min-w-max max-w-xs p-4 z-50">
                   <div className="-mb-2 ml-8 w-4 h-4 rounded-sm bg-white border-l border-t border-gray-200 transform rotate-45"></div>
                   <div className="w-full max-w-xs bg-white border border-gray-100 rounded-3xl pt-4 pb-4 px-4">
@@ -69,7 +70,7 @@ export default function Navbar() {
                   </div>
                 </div>
               </li>
-              <li><Link className="inline-block text-sm text-gray-900 hover:text-orange-900 font-medium" href="/blog">Blog</Link></li>
+              <li><Link className="inline-block text-sm text-gray-900 hover:text-orange-900 font-medium" href="/about">Investment</Link></li>
               <li><Link className="inline-block text-sm text-gray-900 hover:text-orange-900 font-medium" href="/contact">Contact</Link></li>
             </ul>
             
@@ -83,9 +84,9 @@ export default function Navbar() {
                     >Sign In</span>
                   </Link>
                  )}
-                {session && 
+                {/* {session && 
                 <Link className="inline-block mr-9 text-sm font-semibold text-orange-900 hover:text-gray-900" href="/editor">Write</Link>
-                }
+                } */}
                 {session && (
                  <a className="relative group inline-block py-3 px-4 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 rounded-md overflow-hidden transition duration-300" href="#">
                    <div className="absolute top-0 right-full w-full h-full bg-orange-900 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
@@ -117,8 +118,8 @@ export default function Navbar() {
           <div>
             <ul className="mb-2">
               
-              <li><Link className="block py-4 px-5 text-gray-900 hover:bg-orange-50 rounded-lg" href="/blog">Blog</Link></li>
-              <li><Link className="block py-4 px-5 text-gray-900 hover:bg-orange-50 rounded-lg" href="/fashion">Categories</Link></li>
+              <li><Link className="block py-4 px-5 text-gray-900 hover:bg-orange-50 rounded-lg" href="/about">Investment</Link></li>
+              <li><Link className="block py-4 px-5 text-gray-900 hover:bg-orange-50 rounded-lg" href="/about">About</Link></li>
               <li><Link className="block py-4 px-5 text-gray-900 hover:bg-orange-50 rounded-lg" href="/contact">Contact</Link></li>
             </ul>
             <div className="py-6 px-5">
