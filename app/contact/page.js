@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-
+import Navbar from '../components/navbar/Navbar';
+import Footer from '../components/footer/Footer';
 
 const Page = () => {
   const [formData, setFormData] = useState({
@@ -56,7 +57,7 @@ const Page = () => {
 
   return (
     <>
-      
+      <Navbar />
       <section className="bg-white py-4">
         <div className="container px-4 mx-auto">
           <div className="p-6 h-full overflow-hidden bg-white rounded-md">
@@ -153,7 +154,7 @@ const Page = () => {
           </div>
         </div>
       </section>
-
+      <Footer />
     </>
   );
 };
