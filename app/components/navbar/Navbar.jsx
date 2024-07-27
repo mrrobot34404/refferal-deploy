@@ -88,13 +88,21 @@ export default function Navbar() {
                 <Link className="inline-block mr-9 text-sm font-semibold text-orange-900 hover:text-gray-900" href="/editor">Write</Link>
                 } */}
                 {session && (
-                 <a className="relative group inline-block py-3 px-4 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 rounded-md overflow-hidden transition duration-300" href="#">
+                  <>
+                  
+                 <Link className="relative group inline-block py-3 px-4 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 rounded-md overflow-hidden transition duration-300" href="admin">
                    <div className="absolute top-0 right-full w-full h-full bg-orange-900 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
                    <span className="relative"
                     // onClick={signOut}
-                   >Sign Out</span>
-                 </a>
-
+                   >Admin</span>
+                 </Link>
+                 <a className="relative group inline-block py-3 px-4 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 rounded-md overflow-hidden transition duration-300" href="#">
+                 <div className="absolute top-0 right-full w-full h-full bg-orange-900 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
+                 <span className="relative"
+                  // onClick={signOut}
+                 >Sign Out</span>
+               </a>
+               </>
                 )}
                
                </div>
