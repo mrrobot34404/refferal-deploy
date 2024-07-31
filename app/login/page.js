@@ -1,39 +1,63 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
+import { useRouter } from 'next/navigation';
+
 const Login = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loginMessage, setLoginMessage] = useState('');
+
+  useEffect(() => {
+    const storedMessage = localStorage.getItem('loginMessage');
+    if (storedMessage) {
+      setLoginMessage(storedMessage);
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-    console.log("login clicked");
-    // try {
-    //   const res = await signIn("credentials", {
-    //     email,
-    //     password,
-    //     redirect: false,
-    //   });
 
-    //   if(res.error) {
-    //     setError("Invalid Credentials");
-    //     return;
-    //   }
+    try {
+      const res = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: email,
+          password: password,
+        }),
+      });
 
-    //   router.replace('/');
+      const data = await res.json();
 
-    // } catch (err) {
-    //   console.log(err);
-    // }
+      if (res.ok) {
+        if (data.message === "User successfully logged in") {
+          setLoginMessage(data.message);
+          localStorage.setItem('loginMessage', data.message);
+          router.replace('/');
+        } else {
+          setError("Invalid Credentials");
+        }
+      } else {
+        setError("Something went wrong");
+      }
+
+    } catch (err) {
+      console.log(err);
+      setError("Server Error");
+    }
   };
 
   return (
     <>
-      <Navbar />
+      <Navbar loginMessage={loginMessage} />
       <section className="relative py-20 lg:py-10 overflow-hidden">
         <div className="container px-4 mx-auto">
           <div className="max-w-7xl mx-auto">
