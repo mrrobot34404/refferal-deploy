@@ -167,6 +167,8 @@ const Sidebar = () => {
             <li><Link className="block py-4 px-5 text-white hover:bg-orange-50 rounded-lg" href="/admin/transection">Transections</Link></li>
             <li><Link className="block py-4 px-5 text-white hover:bg-orange-50 rounded-lg" href="/admin/settings">Profile Setting</Link></li>
             <li><Link className="block py-4 px-5 text-white hover:bg-orange-50 rounded-lg" href="/admin/withdraw">Withdraw</Link></li>
+            <li><Link className="block py-4 px-5 text-white hover:bg-orange-50 rounded-lg" href="/admin/refferal">Refferal Program</Link></li>
+            <li><Link className="block py-4 px-5 text-white hover:bg-orange-50 rounded-lg" href="/admin/users">Users</Link></li>
           </ul>
           
         </div>

@@ -25,8 +25,9 @@ const Page = ({ params }) => {
 
   const fetchUserData = async () => {
     try {
-      const res = await fetch('https://refferal-deploy.vercel.app/api/login');
+      const res = await fetch('http://localhost:3000/api/login');
       const data = await res.json();
+      console.log(data);
       setUserData(data);
     } catch (error) {
       console.error('Failed to fetch user data:', error);

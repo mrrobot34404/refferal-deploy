@@ -32,12 +32,12 @@ const Pricing = () => {
                 <div className="flex mb-4 items-center justify-center w-10 h-10 bg-gray-100 rounded-full">
                   <img src="https://static.shuffle.dev/components/preview/c4e6b06e-6b70-403f-92e9-fa62e0a96eef/assets/public/saturn-assets/images/pricing/icon1.svg" alt="" />
                 </div>
-                <span className="block text-2xl font-semibold text-gray-900 mb-2">Starter</span>
+                <span className="block text-2xl font-semibold text-gray-900 mb-2">Popular</span>
                 <p className="text-gray-500 mb-6">Simply dummy text of the printing and typesetting industry.</p>
                 <span className="flex items-end">
                   {!toggle && <span className="text-5xl font-extrabold text-gray-900 leading-none">$100</span>}
                   {!toggle && <span className="text-gray-400">/month</span>}
-                  {toggle && <span className="text-5xl font-extrabold text-gray-900 leading-none">$200</span>}
+                  {toggle && <span className="text-5xl font-extrabold text-gray-900 leading-none">100-300 Inr</span>}
                   {toggle && <span className="text-gray-400">/year</span>}
                 </span>
                 <div className="mt-6">
@@ -71,12 +71,12 @@ const Pricing = () => {
                 <div className="flex mb-4 items-center justify-center w-10 h-10 bg-orange-900 rounded-full">
                   <img src="https://static.shuffle.dev/components/preview/c4e6b06e-6b70-403f-92e9-fa62e0a96eef/assets/public/saturn-assets/images/pricing/icon3.svg" alt="" />
                 </div>
-                <span className="block text-2xl font-semibold text-white mb-2">Popular</span>
+                <span className="block text-2xl font-semibold text-white mb-2">Starter</span>
                 <p className="text-gray-500 mb-6">Simply dummy text of the printing and typesetting industry.</p>
                 <span className="flex items-end">
                   {!toggle && <span className="text-5xl font-extrabold text-white leading-none">$1400</span>}
                   {!toggle && <span className="text-gray-50">/month</span>}
-                  {toggle && <span className="text-5xl font-extrabold text-white leading-none">$2800</span>}
+                  {toggle && <span className="text-5xl font-extrabold text-white leading-none">400-700 Inr</span>}
                   {toggle && <span className="text-gray-50">/year</span>}
                 </span>
                 <div className="mt-6">
@@ -115,7 +115,7 @@ const Pricing = () => {
                 <span className="flex items-end">
                   {!toggle && <span className="text-5xl font-extrabold text-gray-900 leading-none">$2100</span>}
                   {!toggle && <span className="text-gray-400">/month</span>}
-                  {toggle && <span className="text-5xl font-extrabold text-gray-900 leading-none">$4200</span>}
+                  {toggle && <span className="text-5xl font-extrabold text-gray-900 leading-none">800-1000 Inr</span>}
                   {toggle && <span className="text-gray-400">/year</span>}
                 </span>
                 <div className="mt-6">

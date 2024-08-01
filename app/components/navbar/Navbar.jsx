@@ -1,9 +1,10 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { signOut, useSession } from 'next-auth/react';
 //import { signOut } from 'next-auth/react';
 //import { useSession } from 'next-auth/react';
-export default function Navbar({ loginMessage }) {
+export default function Navbar() {
    //const session = false; 
    
    //const user = session.data?.user
@@ -12,37 +13,19 @@ export default function Navbar({ loginMessage }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const { data: session, status } = useSession();
+
   useEffect(() => {
-    const loginMessage = localStorage.getItem('loginMessage');
-    if (loginMessage) {
+    if (status === "loading") {
+      // Show loading state while session status is being fetched
+      return;
+    }
+
+    if (session) {
+      // If no session, redirect to sign-in page
       setIsLoggedIn(true);
     }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('loginMessage');
-    setIsLoggedIn(false);
-  };
- // const [categories, setCategories] = useState([]);
-
-  // useEffect(() => {
-    
-  //   const getData = async () => {
-  //     try {
-  //       const res = await fetch("http://localhost:3000/api/category");
-  //       const data = await res.json();
-  //       if (res.ok) {
-  //         setCategories(data);
-  //       } else {
-  //         throw new Error("Failed");
-  //       }
-  //     } catch (error) {
-  //       console.error('Error:', error);
-  //       alert('Sorry! Failed to send your message');
-  //     }
-  //   };
-  //   getData();
-  // }, []);
+  }, [session, status]);
 
  
   return (
@@ -90,7 +73,7 @@ export default function Navbar({ loginMessage }) {
                <div className="hidden lg:block ml-auto">
                <div className="flex items-center">
                  {!isLoggedIn && (
-                     <Link className="relative group inline-block py-3 px-4 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 rounded-md overflow-hidden transition duration-300" href="/login">
+                     <Link className="relative group inline-block py-3 px-4 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 rounded-md overflow-hidden transition duration-300" href="/signin">
                     <div className="absolute top-0 right-full w-full h-full bg-orange-900 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
                     <span className="relative"
                      
@@ -108,12 +91,12 @@ export default function Navbar({ loginMessage }) {
                     // onClick={signOut}
                    >Admin</span>
                  </Link>
-                 <Link className="relative group inline-block py-3 px-4 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 rounded-md overflow-hidden transition duration-300" href="#">
+                 <div className="relative group inline-block py-3 px-4 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 rounded-md overflow-hidden transition duration-300" >
                  <div className="absolute top-0 right-full w-full h-full bg-orange-900 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
                  <span className="relative"
-                   onClick={handleLogout}
+                   onClick={signOut}
                  >Sign Out</span>
-               </Link>
+               </div>
                </>
                 )}
                
@@ -141,10 +124,19 @@ export default function Navbar({ loginMessage }) {
               <li><Link className="block py-4 px-5 text-gray-900 hover:bg-orange-50 rounded-lg" href="/investment">Investment</Link></li>
               <li><Link className="block py-4 px-5 text-gray-900 hover:bg-orange-50 rounded-lg" href="/about">About</Link></li>
               <li><Link className="block py-4 px-5 text-gray-900 hover:bg-orange-50 rounded-lg" href="/contact">Contact</Link></li>
+              {isLoggedIn && 
               <li><Link className="block py-4 px-5 text-gray-900 hover:bg-orange-50 rounded-lg" href="/admin">Admin</Link></li>
+              }
             </ul>
             <div className="py-6 px-5">
+              { isLoggedIn && 
               <Link className="block w-full py-4 px-6 mb-3 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 hover:bg-orange-900 rounded-md transition duration-200" href="/login"> Sign In</Link>
+              }
+
+              { !isLoggedIn && 
+                <Link className="block w-full py-4 px-6 mb-3 text-sm font-semibold text-orange-900 hover:text-white border border-gray-200 hover:bg-orange-900 rounded-md transition duration-200" href="/login"> Sign In</Link>
+
+              }
               
             </div>
           </div>
