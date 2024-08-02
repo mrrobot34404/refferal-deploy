@@ -1,4 +1,23 @@
-const ProfileSetting = () => {
+"use client";
+import { useState, useEffect } from "react";
+
+const ProfileSetting = ({ user }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // Ensure `user` is always an array
+    if (Array.isArray(user)) {
+      setData(user);
+    } else if (user && typeof user === 'object') {
+      // If `user` is a single object, wrap it in an array
+      setData([user]);
+    } else {
+      // Handle cases where `user` is neither an array nor an object
+      console.error("Expected user to be an array or an object, received:", user);
+      setData([]);
+    }
+  }, [user]);
+  console.log(data);
   return (
     <section className="bg-coolGray-50 py-4">
   <div className="container px-4 mx-auto">

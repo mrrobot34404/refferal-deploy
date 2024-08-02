@@ -1,37 +1,75 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import Profile from "../components/profile/Profile";
+import { useEffect, useState, lazy } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import SuspenseWrapper from "../components/suspenseWrapper/SuspenseWrapper";
+
+const Profile = lazy(() => import("../components/profile/Profile"));
+const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
 
 const Page = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     if (status === "loading") {
-      // Show loading state while session status is being fetched
       return;
     }
 
     if (!session) {
-      // If no session, redirect to sign-in page
       router.push('/');
     } else {
-      // If session is present, set loading to false
       setLoading(false);
+
+      const checkNumber = async () => {
+        try {
+          const response = await fetch('/api/getPhoneNumber', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: session.user.email })
+          });
+
+          const data = await response.json();
+         // console.log(data);
+          if (response.ok) {
+            setUserId(data._id ? data._id : '');
+          } else {
+            setUserId(null);
+          }
+        } catch (error) {
+          console.error('Failed to fetch phone number', error);
+          setUserId(null);
+        }
+      };
+
+      checkNumber();
     }
   }, [session, status, router]);
 
-  // Show a loading indicator while session validation is in progress
   if (loading || status === "loading") {
-    return <div>Loading...</div>; // You can replace this with a spinner or any loading indicator
+    return <div>Loading...</div>;
   }
 
-  // Render the Profile component once the session is validated
-  return <Profile />;
+  return (
+    <SuspenseWrapper>
+      <div>
+        {session ? (
+          <>
+          
+          
+                <Sidebar />
+                <Profile />
+            
+           
+          </>
+        ) : null}
+      </div>
+    </SuspenseWrapper>
+  );
 };
 
 export default Page;
