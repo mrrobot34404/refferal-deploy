@@ -11,7 +11,6 @@ const Page = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     if (status === "loading") {
@@ -22,31 +21,6 @@ const Page = () => {
       router.push('/');
     } else {
       setLoading(false);
-
-      const checkNumber = async () => {
-        try {
-          const response = await fetch('/api/getPhoneNumber', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: session.user.email })
-          });
-
-          const data = await response.json();
-         // console.log(data);
-          if (response.ok) {
-            setUserId(data._id ? data._id : '');
-          } else {
-            setUserId(null);
-          }
-        } catch (error) {
-          console.error('Failed to fetch phone number', error);
-          setUserId(null);
-        }
-      };
-
-      checkNumber();
     }
   }, [session, status, router]);
 
@@ -59,12 +33,7 @@ const Page = () => {
       <div>
         {session ? (
           <>
-          
-          
                 <Sidebar />
-                <Profile />
-            
-           
           </>
         ) : null}
       </div>

@@ -3,8 +3,8 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/app/firebase';
-import User from '@/utilis/model/user';
 import { connectToDB } from '@/utilis/mongodb';
+import User from '@/utilis/model/user';
 
 const handler = NextAuth({
   providers: [
@@ -29,32 +29,37 @@ const handler = NextAuth({
           );
 
           if (userCredential.user) {
-            const user = {
+            // Check if the user exists in the database and create/update as needed
+            const existingUser = await User.findOne({ email: userCredential.user.email });
+
+            if (!existingUser) {
+              // If user doesn't exist, create a new user entry
+              const newUser = new User({
+                email: userCredential.user.email,
+                username: userCredential.user.displayName || 'User',
+                password: credentials.password, // Consider hashing the password before storing
+                phoneNumber: null,
+                verified: false,
+                level: 0,
+                status: 'Unpaid',
+                screenShot: '',
+                planName: '',
+                utiNumber: '',
+                planPrice: 0,
+                isAdmin: false,
+              });
+
+              await newUser.save();
+            }
+
+            // Return user object with necessary properties
+            return {
               email: userCredential.user.email,
-              username: userCredential.user.displayName || null,
-              password: credentials.password, // Note: Hash this before saving
-              phoneNumber: null,
-              verified: false,
-              level: 0,
-              status: 'Unpaid',
-              payments: null,
-              plan: null,
-              isAdmin: false,
+              username: userCredential.user.displayName || 'User',
             };
-
-            console.log('Saving user:', user);
-
-            const result = await User.updateOne(
-              { email: user.email },
-              user,
-              { upsert: true }
-            );
-
-            console.log('Update result:', result);
-
-            return user;
           }
 
+          // If sign-in failed
           return null;
         } catch (error) {
           console.error('Authentication Error:', error);

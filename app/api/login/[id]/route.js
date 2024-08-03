@@ -45,10 +45,14 @@ export async function PATCH(request, { params }) {
     // Build the update object dynamically based on provided fields
     const updateFields = {};
     if (updates.status !== undefined) updateFields.status = updates.status;
-    if (updates.plan !== undefined) updateFields.plan = updates.plan;
+    if (updates.planName !== undefined) updateFields.planName = updates.planName;
+    if (updates.utiNumber !== undefined) updateFields.utiNumber = updates.utiNumber;
+    if (updates.planPrice !== undefined) updateFields.planPrice = updates.planPrice;
+    if (updates.screenShot !== undefined) updateFields.screenShot = updates.screenShot;
     if (updates.phoneNumber !== undefined) updateFields.phoneNumber = updates.phoneNumber;
     if (updates.level !== undefined) updateFields.level = updates.level;
-
+    if (updates.verified !== undefined) updateFields.verified = updates.verified;
+    
     // Update user record
     const result = await User.findByIdAndUpdate(
       id,

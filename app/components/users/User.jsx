@@ -1,71 +1,51 @@
 "use client";
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function User({ user }) {
   // Debug: Check what `user` contains
-  console.log('User prop:', user);
+ 
 
   // Initialize state correctly based on `user` type
-  const [users, setUsers] = useState(Array.isArray(user) ? user : [user]);
+  const [users, setUsers] = useState([]);
 
   // Debug: Check initial state
-  console.log('Initial users state:', users);
-
-  const togglePaymentStatus = async (id) => {
-    // Find the user to update
-    const updatedUser = users.find(user => user._id === id);
-
-    if (!updatedUser) {
-      console.error('User not found');
-      return;
+  useEffect(() => {
+    const fetchUserData = async () => {
+  try {
+    // Encode the email to handle special characters
+   
+    const res = await fetch(`/api/login`);
+    
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
     }
+    
+    const data = await res.json();
+    console.log(data);
+    setUsers(data);
+  } catch (error) {
+    console.error('Failed to fetch user data:', error);
+  }
+};
+fetchUserData();
 
-    // Toggle the payment status
-    const newStatus = updatedUser.status === 'Paid' ? 'Unpaid' : 'Paid';
+},[]);
 
-    // Send a PATCH request to update the user
-    try {
-      const response = await fetch(`/api/login/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          status: newStatus,
-          plan: updatedUser.plan,
-          phoneNumber: updatedUser.phoneNumber,
-          level: updatedUser.level
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update user');
-      }
-
-      // Update the local state with the new status
-      const updatedUsers = users.map(user =>
-        user._id === id ? { ...user, status: newStatus } : user
-      );
-      setUsers(updatedUsers);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  if (users[0]?.isAdmin) {
     return (
       <section className="py-8 md:ml-[320px] mt-8">
-        {users.length > 0 ? (
-          users.map(data => (
-            <div className="container px-4 mx-auto" key={data._id}>
+
+         
+            <div className="container px-4 mx-auto" >
               <div className="p-4 mb-6 bg-white shadow rounded overflow-x-auto">
                 <table className="table-auto w-full">
                   <thead>
                     <tr className="text-xs text-gray-500 text-left">
                       <th className="pl-6 pb-3 font-medium">Customer ID</th>
                       <th className="pb-3 font-medium">User</th>
-                      <th className="pb-3 font-medium">Check Request</th>
+                      <th className="pb-3 font-medium">Uti Number</th>
+                      <th className="pb-3 font-medium">Refferal</th>
                       <th className="pb-3 font-medium">Phone</th>
                       <th className="pb-3 font-medium">Status</th>
                       <th className="pb-3 font-medium">Level</th>
@@ -73,7 +53,8 @@ export default function User({ user }) {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="text-xs bg-gray-50">
+                  { users.map((data) => (
+                    <tr className="text-xs bg-gray-50" key={data._id}>
                       <td className="py-5 px-6 font-medium">{data._id}</td>
                       <td className="flex px-4 py-3">
                         <img
@@ -87,14 +68,13 @@ export default function User({ user }) {
                         </div>
                       </td>
                       <td className="font-medium">
-                      <button>{data.payments === null ? 'Null' : data.payments}</button>
+                      <button>{data.utiNumber ? data.utiNumber : 'pending'}</button>
                       </td>
+                      <td className="font-medium">{data.referalId === '' ? 'Null' : data.referalId}</td>
                       
-                      
-                      <td className="font-medium">{data.phoneNumber === null ? 'Null' : data.phoneNumber}</td>
+                      <td className="font-medium">{data.number === '' ? 'Null' : data.number}</td>
                       <td>
                         <span
-                          onClick={() => togglePaymentStatus(data._id)}
                           className={`inline-block py-1 px-2 text-white rounded-full cursor-pointer ${
                             data.status === 'Paid' ? 'bg-green-500' : 'bg-red-500'
                           }`}
@@ -109,21 +89,30 @@ export default function User({ user }) {
                       </td>
                       <td>
                         <span className="inline-block py-1 px-2 text-purple-500 bg-purple-50 rounded-full">
-                          {data.plan === null ? 'Null' : data.plan}
+                          {data.planName === '' || data.planName === null ? 'Null' : data.planName}
                         </span>
                       </td>
+                      <td>
+                        <Link href={`/admin/users/${data._id}`}>
+                        <span
+
+                          className={`inline-block py-1 px-2 text-white rounded-full cursor-pointer bg-green-500
+                            }`}
+                            >
+                          Edit
+                        </span>
+                          </Link>
+                      </td>
                     </tr>
+                ))}
                   </tbody>
                 </table>
               </div>
             </div>
-          ))
-        ) : (
-          <p>No users available</p>
-        )}
+        
       </section>
+        
     );
-  }
+  
 
-  return <p>You do not have permission to view this page.</p>;
-}
+  }

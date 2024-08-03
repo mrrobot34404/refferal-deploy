@@ -1,7 +1,7 @@
 // app/admin/layout.js
 import { Inter } from "next/font/google";
 import "../globals.css"; // Ensure the path is correct
-// import Sidebar from "../components/sidebar/Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +15,7 @@ export default function AdminLayout({ children }) {
     <div className="admin-layout">
       {/* <Sidebar /> */}
       <main className={inter.className}>
+        <Sidebar />
         {children}
       </main>
     </div>

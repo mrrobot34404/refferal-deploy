@@ -1,8 +1,44 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 const Sidebar = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    useEffect(() => {
+      if (status === "loading") {
+        return;
+      }
+  
+      if (!session) {
+        router.push('/');
+      } else {
+        const fetchUserId = async () => {
+          try {
+            const res = await fetch('http://localhost:3000/api/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ email: session.user.email }),
+            });
+  
+            if (!res.ok) {
+              throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+  
+            const data = await res.json();
+            setIsAdmin(data.isAdmin ? data.isAdmin : false);
+          } catch (error) {
+            console.error('Failed to fetch user data:', error);
+          }
+        };
+        fetchUserId();
+      }
+    }, [session, status, router]);
   return (
     <>
         <div className="lg:block lg:w-[320px] hidden bg-transparent z-50">
@@ -103,6 +139,7 @@ const Sidebar = () => {
             </span>
           </Link>
         </li>
+        {isAdmin && (
         <li className="mt-6">
           <Link className="flex items-center pl-3 py-3 pr-4 text-gray-50 bg-indigo-500 rounded" href="/admin/users">
             <span className="inline-block mr-3">
@@ -118,6 +155,7 @@ const Sidebar = () => {
             </span>
           </Link>
         </li>
+        )}
        
       </ul>
     </div>
