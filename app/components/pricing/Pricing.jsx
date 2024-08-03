@@ -36,7 +36,7 @@ const Pricing = ({ user, verify }) => {
     }
   
     try {
-      const response = await fetch(`http://localhost:3000/api/login/${userId}`, {
+      const response = await fetch(`https://refferal-deploy.vercel.app/api/login/${userId}`, {
         method: 'PATCH', // Change method to PATCH
         headers: {
           'Content-Type': 'application/json'

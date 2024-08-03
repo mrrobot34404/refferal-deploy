@@ -8,7 +8,6 @@ import Transection from "@/app/components/transection/Transection";
 import User from "@/app/components/users/User";
 import Withdraw from "@/app/components/withdraw/Withdraw";
 import Refferal from '@/app/components/refferal/Refferal';
-import Sidebar from '@/app/components/sidebar/Sidebar';
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SingleUser from '@/app/components/singleUser/SingleUser';
@@ -33,7 +32,7 @@ const Page = ({ params }) => {
     } else {
       const fetchUserId = async () => {
         try {
-          const res = await fetch('http://localhost:3000/api/login', {
+          const res = await fetch('https://refferal-deploy.vercel.app/api/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -62,7 +61,7 @@ const Page = ({ params }) => {
       const userId = slug[1];
       const fetchUserById = async () => {
         try {
-          const res = await fetch(`http://localhost:3000/api/login/${userId}`);
+          const res = await fetch(`https://refferal-deploy.vercel.app/api/login/${userId}`);
 
           if (!res.ok) {
             throw new Error(`HTTP error! Status: ${res.status}`);

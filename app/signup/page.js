@@ -33,7 +33,7 @@ export default function Signup() {
 
     try {
       // Send data to the API
-      const response = await fetch('http://localhost:3000/api/usersignup', { // Adjust API endpoint as needed
+      const response = await fetch('https://refferal-deploy.vercel.app/api/usersignup', { // Adjust API endpoint as needed
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
