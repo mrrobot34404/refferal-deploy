@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react'
 
-const Refferal = () => {
+const Refferal = ({ user }) => {
   const [buttonText, setButtonText] = useState("Copy");
 
   const copyToClipboard = (text) => {
@@ -15,7 +15,6 @@ const Refferal = () => {
     });
   }
 
-  const referralId = "SR2451EW32";
 
   return (
     <div className="mt-8 md:ml-[320px] top-0">
@@ -33,8 +32,9 @@ const Refferal = () => {
                 </tr>
               </thead>
               <tbody>
+                {user && (
                 <tr className="text-x bg-gray-50">
-                  <td className="py-5 px-6 font-medium">{referralId}</td>
+                  <td className="py-5 px-6 font-medium">{user}</td>
                   <td>
                     <button
                       onClick={() => copyToClipboard(referralId)}
@@ -44,6 +44,7 @@ const Refferal = () => {
                     </button>
                   </td>
                 </tr>
+                )}
               </tbody>
             </table>
           </div>

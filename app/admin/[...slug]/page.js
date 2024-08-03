@@ -123,7 +123,7 @@ const Page = ({ params }) => {
   } else if (slug.includes("refferal")) {
     if(userData.verified) {
       return (
-        <Refferal user={userData} />
+        <Refferal user={userData._id} />
       )
     }else {
       return <div className="mt-8 md:ml-[320px] top-0">
