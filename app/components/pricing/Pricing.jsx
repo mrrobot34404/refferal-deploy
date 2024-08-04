@@ -14,7 +14,7 @@ const Pricing = ({ user, verify }) => {
   const [utiNumber, setUtiNumber] = useState(null);
   const [media, setMedia] = useState('');
   const [success, setSuccess] = useState('');
-  console.log(userId? userId : '');
+ // console.log(userId? userId : '');
 
 
 
@@ -23,7 +23,7 @@ const Pricing = ({ user, verify }) => {
     setPlanPrice(price);
     setPlanId(id);
     setPlanName(name);
-    console.log(id, price, name);
+   // console.log(id, price, name);
   }
  
   const handleSubmit = async (e) => {
@@ -36,7 +36,7 @@ const Pricing = ({ user, verify }) => {
     }
   
     try {
-      const response = await fetch(`https://refferal-deploy.vercel.app/api/login/${userId}`, {
+      const response = await fetch(`http://localhost:3000/api/login/${userId}`, {
         method: 'PATCH', // Change method to PATCH
         headers: {
           'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ const Pricing = ({ user, verify }) => {
   
       if (response.ok) {
         console.log("Updated successfully");
-        setSuccess("Updated successfully");
+        setSuccess("Sent successfully");
         
       } else {
         alert(result.error || 'An error occurred');
@@ -182,6 +182,11 @@ const Pricing = ({ user, verify }) => {
             </div>
           </form>
         </div>
+        {success && (
+          <div className="w-full md:w-1/2 p-3">
+                      <p className="mb-1.5 font-medium text-base text-coolGray-800">{success}</p>
+                      </div>
+        )}
       </section>
     );
   }

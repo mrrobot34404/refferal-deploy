@@ -25,24 +25,20 @@ export default function Profile({ user }) {
     <div className="p-4 mb-6 bg-white shadow rounded overflow-x-auto">
       <table className="table-auto w-full">
         <thead>
-          <tr className="text-xs text-gray-500 text-left"><th className="pl-6 pb-3 font-medium">Customer ID</th><th className="pb-3 font-medium">User</th><th className="pb-3 font-medium">Joined</th><th className="pb-3 font-medium">Status</th></tr>
+          <tr className="text-xs text-gray-500 text-left"><th className="pl-6 pb-3 font-medium">Username</th><th className="pl-6 pb-3 font-medium">Email</th><th className="pl-6 pb-3 font-medium">Phone</th><th className="pb-3 font-medium">Status</th></tr>
         </thead>
         <tbody>
         {data.map((result) => (
 
 
           <tr className="text-xs bg-gray-50" key={result._id}>
-            <td className="py-5 px-6 font-medium">{result._id}</td>
-            <td className="flex px-4 py-3">
-              <img className="w-8 h-8 mr-4 object-cover rounded-md" src="https://images.unsplash.com/photo-1559893088-c0787ebfc084?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="" />
-              <div>
-                <p className="font-medium">{result.username}</p>
-                <p className="text-gray-500">{result.email}</p>
-              </div>
-            </td>
-            <td className="font-medium">09/04/2021</td>
+            <td className="py-5 px-6 font-medium">{result.username}</td>
+            <td className="py-5 px-6 font-medium">{result.email}</td>
+            <td className="py-5 px-6 font-medium">{result.number}</td>
             <td>
-              <span className="inline-block py-1 px-2 text-white bg-green-500 rounded-full">{result.status}</span>
+              <span className={`inline-block py-1 px-2 text-white bg-green-500 rounded-full ${
+                            result.status === 'Paid' ? 'bg-green-500' : 'bg-red-500'
+                          }`}>{result.status}</span>
             </td>
 
           </tr>

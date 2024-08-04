@@ -12,6 +12,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SingleUser from '@/app/components/singleUser/SingleUser';
 import NotVerified from '@/app/components/notVerified/NotVerified';
+import Wallet from '@/app/components/wallet/Wallet';
+import DisposeAmount from '@/app/components/disposeAmount/DisposeAmount';
 
 const Page = ({ params }) => {
   const { data: session, status } = useSession();
@@ -20,6 +22,7 @@ const Page = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
+  const [refferalUsers, setRefferalUsers] = useState([]);
   const slug = params.slug; // `slug` is an array of path segments
 
   useEffect(() => {
@@ -32,7 +35,7 @@ const Page = ({ params }) => {
     } else {
       const fetchUserId = async () => {
         try {
-          const res = await fetch('https://refferal-deploy.vercel.app/api/login', {
+          const res = await fetch('http://localhost:3000/api/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -61,7 +64,7 @@ const Page = ({ params }) => {
       const userId = slug[1];
       const fetchUserById = async () => {
         try {
-          const res = await fetch(`https://refferal-deploy.vercel.app/api/login/${userId}`);
+          const res = await fetch(`http://localhost:3000/api/login/${userId}`);
 
           if (!res.ok) {
             throw new Error(`HTTP error! Status: ${res.status}`);
@@ -76,8 +79,10 @@ const Page = ({ params }) => {
       };
       fetchUserById();
     }
-  }, [slug]);
+  }, [session, status, slug]);
 
+
+ console.log(userId);
   if (!slug) {
     return null;
   }
@@ -116,6 +121,12 @@ const Page = ({ params }) => {
     return (
         <SingleUser user={allUsers} />
     );
+  }  else if (slug.includes("refferalteam")) {
+    if(userData.verified) {
+      return (
+        <Transection team={userData._id} />
+      )
+    } 
   } else if (slug.includes("users") && userData.isAdmin) {
     return (
       <User user={userData} />
@@ -125,11 +136,24 @@ const Page = ({ params }) => {
       return (
         <Refferal user={userData._id} />
       )
-    }else {
+    } 
+    else {
       return <div className="mt-8 md:ml-[320px] top-0">
         <NotVerified />
       </div>
     }
+  } else if (slug.includes("wallet") && userData.isAdmin) {
+    return (
+      <div className="mt-8 md:ml-[320px] top-0">
+        <Wallet />
+      </div>
+    );
+  } else if (slug.includes("disposeAmount") && userData.isAdmin) {
+    return (
+      <div className="mt-8 md:ml-[320px] top-0">
+        <DisposeAmount />
+      </div>
+    );
   } else {
     return <PageNotFound />;
   }

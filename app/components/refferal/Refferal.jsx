@@ -37,7 +37,7 @@ const Refferal = ({ user }) => {
                   <td className="py-5 px-6 font-medium">{user}</td>
                   <td>
                     <button
-                      onClick={() => copyToClipboard(referralId)}
+                      onClick={() => copyToClipboard(user)}
                       className="py-2 px-5 text-white bg-indigo-500 rounded-full"
                     >
                       {buttonText}
