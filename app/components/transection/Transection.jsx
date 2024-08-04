@@ -12,7 +12,7 @@ const Transection = ({ team }) => {
 
     const fetchRefferalUsers = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/refferal/${team}`);
+        const res = await fetch(`https://refferal-deploy-gray.vercel.app/api/refferal/${team}`);
 
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
@@ -71,7 +71,7 @@ const Transection = ({ team }) => {
   } else {
     <div className="mt-8 md:ml-[320px] top-0">
     <h2 className='text-xl font-bold text-center mt-8'>
-        Sorry You dono't have any refferal Team grow your Network
+        Sorry You donot have any refferal Team grow your Network
       </h2>
   </div>
   }

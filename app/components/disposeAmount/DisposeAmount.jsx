@@ -6,7 +6,7 @@ const DisposeAmount = () => {
     useEffect(() => {
         const fetchWallet = async() => {
             try {
-                const res = await fetch(`http://localhost:3000/api/withdraw`);
+                const res = await fetch(`https://refferal-deploy-gray.vercel.app/api/withdraw`);
         
                 if (!res.ok) {
                   throw new Error(`HTTP error! Status: ${res.status}`);
