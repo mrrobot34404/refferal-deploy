@@ -6,7 +6,7 @@ const Wallet = () => {
     useEffect(() => {
         const fetchWallet = async() => {
             try {
-                const res = await fetch(`http://localhost:3000/api/wallet`);
+                const res = await fetch(`https://refferal-deploy-gray.vercel.app/api/wallet`);
         
                 if (!res.ok) {
                   throw new Error(`HTTP error! Status: ${res.status}`);
